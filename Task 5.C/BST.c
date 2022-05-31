@@ -1,8 +1,9 @@
 #define CRT_SECURE_NO_WARNINGS
 #include "TreePrintLibrary.h"
 #include "BST.h"
+#include <stdbool.h>
 #include <stdio.h>
-#define AllocationCheck \
+#define AllocationCheck(temp) \
 do { \
 	if(temp == NULL) { \
 		printf("allocation failed"); \
@@ -21,7 +22,7 @@ void initBST(BST* bst) {
 void insertBST(BST* bst, int value) {
 	if (bst->root == NULL) { // the tree is empty
 		TreeNode* temp = (TreeNode*)malloc(sizeof(TreeNode));
-		AllocationCheck;
+		AllocationCheck(temp);
 		temp->element = value;
 		bst->root = temp;
 		bst->root->left = NULL;
@@ -53,39 +54,85 @@ void destroyBST(BST* bst) {
 	}
 
 }
-// return findIndexNFromLast(&bst->root->right,N-1);
-//
+
 int findIndexNFromLast(BST* bst, int N) {
-	int num = 0;
-	/*if (N = 0) {
-		return bst->root->element;
-	}*/
-	//return findIndexNFromLast(&bst->root->right, N - 1);
-	if (bst->root != NULL) {
-		num = findIndexNFromLast(&bst->root->right,N);
-		if (num != 0 && num != NULL) {
-			return num;
-		}
-		N -= 1;
-		if (N == 0) {
-			return bst->root->element;
-		}
-		num = findIndexNFromLast(&bst->root->left,N - 1);
-		if (num != 0 && num != NULL) {
-			return num;
-		}
-		N -=1;
-		if (N == 0) {
-			return bst->root->element;
-		}
-		
+	int all = CountRoots(bst);
+	if (N > all || N < 1) {
+		printf("parameter N is not in range");
+		return 0;
 	}
-	return NULL;
+	N = all - N + 1;
+	int middle = mid(bst->root);
+	int num = foo(bst, middle, N);
+	return num;
+	
+	
+	}
+	
+
+int mid(TreeNode* node) {
+	int all = CountRoots2(node);
+	int right = CountRoots2(node->right);
+	int middle = all - right;
+	return middle;
+}
+int foo(BST* bst, int middle, int N) {
+	if (bst->root != NULL) {
+		int num = 0;
+		if (N == middle) {
+			return bst->root->element;
+		}
+		if (middle < N) {
+			num = foo(&bst->root->right, middle + mid(bst->root->right) , N);
+		}
+		if (middle > N) {
+			num = foo(&bst->root->left, middle - mid(bst->root->left), N);
+		}
+		return num;
+	}
+	else {
+		return NULL;
+	}
 }
 
 int sameHeightLeaves(BST* bst) {
-	if (bst->root == NULL) {
-		return 1;
-	}
+	
+	
 	
 }
+
+int CountRoots(BST* bst) {
+	if (bst->root == NULL) {
+		return 0;
+	}
+	return 1 + CountRoots(&bst->root->left) + CountRoots(&bst->root->right);
+}
+
+int CountRoots2(TreeNode* node) {
+	if (node == NULL ){
+		return 0;
+	}
+	return 1 + CountRoots2(node->left) + CountRoots2(node->right);
+
+}
+
+int countLeftPath(BST* bst) {
+	if (bst == NULL) {
+		return 0;
+	}
+	return countLeftPath(bst->root->left) + 1;
+}
+
+bool CheckLeafLevel(BST* bst, int level, int* leaflevel) {
+	if (bst->root == NULL) {
+		return true;
+	}
+	if (bst->root->left == NULL && bst->root->right == NULL) {
+		if (*leaflevel == 0) {
+			*leaflevel = level;
+			return true;
+		}
+		return (level == *leaflevel);
+	}
+	return CheckLeafLevel(&bst->root->left, level + 1, leaflevel) && CheckLeafLevel(&bst->root->right, level + 1, leaflevel);
+	}
