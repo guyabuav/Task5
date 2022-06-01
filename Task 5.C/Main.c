@@ -21,7 +21,11 @@ void main() {
 	printTreeInorder(&bst);
 	printf("\n");
 	printf("The number of roots is %d\n" , CountRoots(&bst.root));
-	printf("The NfromLAST number is %d\n" , findIndexNFromLast(&bst, 5));
+	int temp = findIndexNFromLast(&bst, 5);
+	if (temp) {
+		printf("The NfromLAST number is %d\n", temp);
+	}
+	
 	if (sameHeightLeaves(&bst.root)) {
 		printf("SameLevel for every path\n");
 	}

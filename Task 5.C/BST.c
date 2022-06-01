@@ -58,7 +58,7 @@ void destroyBST(BST* bst) {
 int findIndexNFromLast(BST* bst, int N) {
 	int all = CountRoots(bst);
 	if (N > all || N < 1) { // if N is not in range
-		printf("parameter N is not in range");
+		printf("parameter N is not in range\n");
 		return 0;
 	}
 	N = all - N + 1;
@@ -113,7 +113,7 @@ bool CheckLeafLevel(BST* bst, int level, int* leaflevel) {
 
 int sameHeightLeaves(BST* bst) {
 	int* leaflevel = (int*)malloc(sizeof(int));
-	*(leaflevel) = countLeftPath(&bst->root); // count the nodes in left path in bst
+	*(leaflevel) = CountRoots2(&bst->root->left); // count the nodes in left path in bst
 	return (CheckLeafLevel(&bst->root, 0, leaflevel));
 }
 
