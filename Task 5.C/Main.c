@@ -16,7 +16,7 @@ void main() {
 	insertBST(&bst, 5);
 	insertBST(&bst, 4);
 	insertBST(&bst, 8);
-	//insertBST(&bst, 9);
+	insertBST(&bst, 9);
 	print_ascii_tree(bst.root);
 	printTreeInorder(&bst);
 	printf("\n");

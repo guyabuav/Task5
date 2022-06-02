@@ -113,7 +113,7 @@ bool CheckLeafLevel(BST* bst, int level, int* leaflevel) {
 
 int sameHeightLeaves(BST* bst) {
 	int* leaflevel = (int*)malloc(sizeof(int));
-	*(leaflevel) = CountRoots2(&bst->root->left); // count the nodes in left path in bst
+	*(leaflevel) = CountRoots2(bst->root->left) - 1; // count the nodes in left path in bst
 	return (CheckLeafLevel(&bst->root, 0, leaflevel));
 }
 
