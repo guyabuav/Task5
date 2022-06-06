@@ -128,8 +128,8 @@
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\TreePrintLibrary.h" />
     <ClInclude Include="BST.h" />
+    <ClInclude Include="TreePrintLibrary.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
